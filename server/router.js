@@ -4,6 +4,16 @@ import axios from "axios";
 
 const router = Router();
 
+router.get("/authors", async (req, res) => {
+  try {
+    const authors = await Title.find({});
+    res.json(authors);
+    console.log(authors);
+  } catch (error) {
+    console.log("There was an error", error);
+  }
+});
+
 router.post("/post", async (req, res) => {
   try {
     const newTitle = new Title({
