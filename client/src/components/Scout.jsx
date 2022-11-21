@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 const emptyBookForm = {
   title: "",
@@ -17,23 +18,39 @@ export function Scout() {
       const formBody = bookFormState;
       console.log(formBody);
 
-      const res = await fetch("http://localhost:5005/post", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formBody),
-      });
+      const res = await axios.post("http://localhost:5005/post", formBody);
 
-      const sentData = await res.json();
-      console.log("hello again");
+      const data = res.data;
       //
-      console.log(sentData);
+      console.log(data);
       //
     } catch (error) {
       console.error(error);
     }
   };
+
+  // const saveBookToDb = async () => {
+  //   try {
+  //     const formBody = bookFormState;
+  //     console.log(formBody);
+
+  //     const res = await fetch("http://localhost:5005/post", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formBody),
+  //     });
+
+  //     const sentData = await res.json();
+  //     console.log("hello again");
+  //     //
+  //     console.log(sentData);
+  //     //
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <div>
