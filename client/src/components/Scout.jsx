@@ -15,21 +15,21 @@ export function Scout() {
   const saveBookToDb = async () => {
     try {
       const formBody = bookFormState;
+      console.log(formBody);
 
-      const res = await fetch({
+      const res = await fetch("http://localhost:5005/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify(formBody),
       });
 
       const sentData = await res.json();
+      console.log("hello again");
       //
       console.log(sentData);
       //
-      setBookFormState(emptyBookForm);
     } catch (error) {
       console.error(error);
     }
@@ -38,27 +38,26 @@ export function Scout() {
   return (
     <div>
       <h1>Scout's page</h1>
-      <form action="POST">
-        <fieldset>
-          <legend>Enter book</legend>
-          <input
-            name="title"
-            onChange={handleChange}
-            value={bookFormState.title}
-            placeholder="Title"
-          />
-          <br />
-          <input
-            type="text"
-            name="author"
-            onChange={handleChange}
-            value={bookFormState.author}
-            placeholder="Author"
-          />
-          <br />
-          <button onClick={saveBookToDb}>Submit</button>
-        </fieldset>
-      </form>
+
+      <fieldset>
+        <legend>Enter book</legend>
+        <input
+          name="title"
+          onChange={handleChange}
+          value={bookFormState.title}
+          placeholder="Title"
+        />
+        <br />
+        <input
+          type="text"
+          name="author"
+          onChange={handleChange}
+          value={bookFormState.author}
+          placeholder="Author"
+        />
+        <br />
+        <button onClick={saveBookToDb}>Submit</button>
+      </fieldset>
     </div>
   );
 }
