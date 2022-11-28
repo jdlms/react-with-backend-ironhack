@@ -1,38 +1,61 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
+import { useState } from "react";
+import AsyncSelect from "react-select/async";
+import { useEffect } from "react";
 
-export const Scout = () => {
-  const { register, handleSubmit, reset } = useForm({
+export function Scout() {
+  const { register, handleSubmit, control, reset } = useForm({
     defaultValues: {
       title: "",
       author: "",
     },
   });
 
+  const [authorSearch, setAuthorSearch] = useState([]);
+
   const onSubmit = async (data) => {
     try {
       await axios.post("http://localhost:5005/post", data);
-
       reset();
-
-      const res2 = await axios.get("http://localhost:5005/authors");
-      let data2 = res2;
-      console.log(data2);
     } catch (error) {
       console.error(error);
     }
   };
 
+  useEffect(() => {
+    const getAuthors = async () => {
+      try {
+        const request = await axios.get("http://localhost:5005/author-search");
+        let authorsArray = request.data;
+        return setAuthorSearch((old) => [...old, authorsArray]);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getAuthors();
+  }, []);
+
   return (
     <div>
+      {console.log(authorSearch)}
       <form onSubmit={handleSubmit(onSubmit)}>
+        {/* <Controller
+          control={control}
+          name="AsyncSelect"
+          render={({ field: { onChange, onBlur, value, ref } }) => (
+<AsyncSelect
+
+          )}
+        /> */}
+
         <input {...register("title", { required: true, minLength: 1 })} placeholder="Title" />
         <input {...register("author", { required: true, minLength: 1 })} placeholder="Author" />
         <input type="submit" />
       </form>
     </div>
   );
-};
+}
 
 //BELOW raw React form with fetch & axios
 

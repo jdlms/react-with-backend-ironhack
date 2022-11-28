@@ -4,9 +4,9 @@ import axios from "axios";
 
 const router = Router();
 
-router.get("/authors", async (req, res) => {
+router.get("/author-search", async (req, res) => {
   try {
-    const authors = await Title.find({});
+    const authors = await Title.find({}, { author: 1 });
     res.json(authors);
     console.log(authors);
   } catch (error) {
