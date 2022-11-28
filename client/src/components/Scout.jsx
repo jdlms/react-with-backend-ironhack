@@ -1,8 +1,7 @@
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
-import AsyncSelect from "react-select/async";
-import { useEffect } from "react";
+import { MuiAutocomplete } from "./MuiAutocomplete";
 
 export function Scout() {
   const { register, handleSubmit, control, reset } = useForm({
@@ -11,8 +10,6 @@ export function Scout() {
       author: "",
     },
   });
-
-  const [authorSearch, setAuthorSearch] = useState([]);
 
   const onSubmit = async (data) => {
     try {
@@ -23,22 +20,22 @@ export function Scout() {
     }
   };
 
-  useEffect(() => {
-    const getAuthors = async () => {
-      try {
-        const request = await axios.get("http://localhost:5005/author-search");
-        let authorsArray = request.data;
-        return setAuthorSearch((old) => [...old, authorsArray]);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getAuthors();
-  }, []);
+  // useEffect(() => {
+  //   const getAuthors = async () => {
+  //     try {
+  //       const request = await axios.get("http://localhost:5005/author-search");
+  //       let authorsArray = request.data;
+  //       return setAuthorSearch((old) => [...old, authorsArray]);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   getAuthors();
+  // }, []);
 
   return (
     <div>
-      {console.log(authorSearch)}
+      {/* {console.log(authorSearch)} */}
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* <Controller
           control={control}
@@ -50,7 +47,9 @@ export function Scout() {
         /> */}
 
         <input {...register("title", { required: true, minLength: 1 })} placeholder="Title" />
-        <input {...register("author", { required: true, minLength: 1 })} placeholder="Author" />
+        {/* <input {...register("author", { required: true, minLength: 1 })} placeholder="Author" /> */}
+        <label>Author</label>
+        <MuiAutocomplete control={control} />
         <input type="submit" />
       </form>
     </div>
